@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:           #313338;
+  --bg-dark:      #2b2d31;
+  --bg-darker:    #1e1f22;
+  --bg-input:     #383a40;
+  --bg-hover:     #35373c;
+  --bg-modifier:  #232428;
+  --sidebar:      #2b2d31;
+  --text:         #dbdee1;
+  --text-muted:   #80848e;
+  --text-faint:   #4e5058;
+  --accent:       #5865f2;
+  --accent-hover: #4752c4;
+  --accent-light: #5865f215;
+  --green:        #23a55a;
+  --green-light:  #23a55a20;
+  --red:          #f23f43;
+  --red-light:    #f23f4320;
+  --yellow:       #f0b232;
+  --yellow-light: #f0b23220;
+  --border:       #3f4147;
+  --shadow:       0 4px 24px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  font-family: "gg sans", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-modifier); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* ── Links ─────────────────────────────────────────────────────────── */
+a { color: #00aafc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Inputs ────────────────────────────────────────────────────────── */
+input, textarea, select {
+  outline: none; border: none; font-family: inherit;
+  background: var(--bg-input); color: var(--text);
+  border-radius: 4px;
+}
+input::placeholder, textarea::placeholder { color: var(--text-muted); }
+
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+/* ── Auth card inputs ──────────────────────────────────────────────── */
+.auth-input {
+  width: 100%;
+  background: var(--bg-darker);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 16px;
+  transition: border-color 0.15s;
+}
+.auth-input:focus { border-color: var(--accent); }
+
+/* ── Message content ───────────────────────────────────────────────── */
+.msg-content { word-break: break-word; white-space: pre-wrap; line-height: 1.5; }
+.msg-content code {
+  font-family: "Consolas", monospace;
+  background: var(--bg-darker);
+  padding: 2px 5px; border-radius: 3px; font-size: 0.875em;
+}
+.msg-content pre {
+  background: var(--bg-darker); border-radius: 6px;
+  padding: 12px 16px; overflow-x: auto; margin: 6px 0;
+  border: 1px solid var(--border);
+}
+.msg-content pre code { background: none; padding: 0; }
+.msg-content strong { font-weight: 700; color: #fff; }
+.msg-content em { font-style: italic; }
+
+/* ── Animations ────────────────────────────────────────────────────── */
+@keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+@keyframes slideUp  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideIn  { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+@keyframes spin     { to{transform:rotate(360deg)} }
+@keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes bounce   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes ping     { 0%{transform:scale(1);opacity:1} 75%,100%{transform:scale(2);opacity:0} }
+
+.animate-fade-in  { animation: fadeIn  0.15s ease; }
+.animate-slide-up { animation: slideUp 0.2s ease; }
+.animate-slide-in { animation: slideIn 0.2s ease; }
+.animate-spin     { animation: spin 0.7s linear infinite; }
+.animate-pulse    { animation: pulse 2s ease infinite; }
+.animate-ping     { animation: ping 1s ease infinite; }
+
+/* ── Status colours ────────────────────────────────────────────────── */
+.status-online  { background: var(--green) !important; }
+.status-idle    { background: var(--yellow) !important; }
+.status-dnd     { background: var(--red) !important; }
+.status-offline { background: var(--text-faint) !important; }
+
+/* ── Tooltip ───────────────────────────────────────────────────────── */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; left: 50%; bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  background: var(--bg-darker); color: #fff;
+  font-size: 12px; font-weight: 600;
+  padding: 6px 10px; border-radius: 5px;
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.12s; z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+[data-tip]:hover::after { opacity: 1; }
+
+/* ── Glass effect ──────────────────────────────────────────────────── */
+.glass {
+  background: rgba(43,45,49,0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* ── Mention highlight ─────────────────────────────────────────────── */
+.mention {
+  background: var(--yellow-light); color: var(--yellow);
+  padding: 0 3px; border-radius: 3px; cursor: pointer;
+}
+.mention:hover { background: var(--yellow); color: #000; }
+
+/* ── Unread badge ──────────────────────────────────────────────────── */
+.unread-badge {
+  background: var(--red); color: #fff;
+  font-size: 11px; font-weight: 700;
+  min-width: 18px; height: 18px;
+  border-radius: 9px; padding: 0 5px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Channel/DM active pill ────────────────────────────────────────── */
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 8px; border-radius: 6px;
+  cursor: pointer; transition: background 0.1s, color 0.1s;
+  color: var(--text-muted); font-size: 15px; font-weight: 500;
+  margin: 1px 8px;
+}
+.nav-item:hover { background: var(--bg-hover); color: var(--text); }
+.nav-item.active { background: var(--bg-hover); color: #fff; }
+
+/* ── Button variants ───────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--accent); color: #fff;
+  padding: 10px 20px; border-radius: 4px;
+  font-weight: 500; font-size: 15px;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-danger {
+  background: var(--red); color: #fff;
+  padding: 10px 20px; border-radius: 4px;
+  font-weight: 500; transition: opacity 0.15s;
+}
+.btn-danger:hover { opacity: 0.85; }
+
+.btn-ghost {
+  color: var(--text-muted); padding: 8px 12px; border-radius: 4px;
+  font-size: 14px; transition: background 0.15s, color 0.15s;
+}
+.btn-ghost:hover { background: var(--bg-hover); color: var(--text); }
+
+/* ── Message input ─────────────────────────────────────────────────── */
+.msg-input-box {
+  background: var(--bg-input);
+  border-radius: 10px;
+  padding: 0 16px;
+  display: flex; align-items: flex-end; gap: 8px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.msg-input-box:focus-within { border-color: var(--border); }
+
+/* ── Server icon ───────────────────────────────────────────────────── */
+.server-icon {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-radius 0.2s, background 0.2s;
+  font-size: 18px; font-weight: 700;
+  overflow: hidden; flex-shrink: 0;
+}
+.server-icon:hover, .server-icon.active { border-radius: 16px; }
+
+/* ── Divider ───────────────────────────────────────────────────────── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--text-muted); font-size: 12px; font-weight: 600;
+  padding: 16px 16px 4px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Modal overlay ─────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+.modal-box {
+  background: var(--bg-dark); border-radius: 8px;
+  box-shadow: var(--shadow);
+  width: 100%; max-width: 440px;
+  animation: slideUp 0.2s ease;
+  overflow: hidden;
+}
